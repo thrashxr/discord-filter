@@ -1,0 +1,12 @@
+# Publish only what "files" in package.json allows; this is a belt-and-braces list.
+src/
+test/
+bench/
+node_modules/
+coverage/
+tsconfig.json
+tsup.config.ts
+.eslintrc.cjs
+.gitignore
+*.log
+vitest.config.ts
