@@ -10,7 +10,7 @@ export const DEFAULT_WORDS: readonly string[] = [...TR_WORDS, ...EN_WORDS];
  * Words that must never be reported as profanity even when a rule would
  * otherwise match them (surnames, compounds, technical terms).
  */
-export const DEFAULT_ALLOWLIST: readonly string[] = [
+export const DEFAULT_ALLOWLIST_WORDS: readonly string[] = [
   'dickens',
   'dickinson',
   'shiitake',
@@ -45,10 +45,3 @@ export const DEFAULT_INVITE_HOSTS: readonly string[] = [
   'discord.me',
   'dis.gd',
 ];
-
-/**
- * v1 shipped a `DEFAULT_ADS` list that flagged every URL. v2 has a real URL
- * matcher instead, so there is no default link blocklist — every link is
- * reported as `link` unless the caller opts into a custom `links` list.
- */
-export const DEFAULT_LINK_HOSTS: readonly string[] = [];

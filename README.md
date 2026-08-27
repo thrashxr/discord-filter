@@ -42,7 +42,7 @@ filter.check('you are a s.a.l.a.k');
 // }
 
 filter.check('join my server discord.gg/abcdef');
-// { match: true, type: 'invite', word: 'discord.gg/abcdef', matchedText: 'discord.gg/abcdef', index: 15, endIndex: 31 }
+// { match: true, type: 'invite', word: 'discord.gg/abcdef', matchedText: 'discord.gg/abcdef', index: 15, endIndex: 32 }
 
 filter.check('check out https://example.com');
 // { match: true, type: 'link', word: 'https://example.com', ... }
@@ -128,6 +128,22 @@ filter.addAllow(w);
 
 Every mutation recompiles the internal matcher, so the next `check()` reflects it.
 Reading `filter.words` / `filter.links` / `filter.invites` returns the live lists.
+
+### Exported constants
+
+```ts
+import {
+  DEFAULT_WORDS,           // TR_WORDS + EN_WORDS
+  DEFAULT_ALLOWLIST_WORDS, // safe words never flagged as profanity
+  DEFAULT_INVITE_HOSTS,    // built-in invite host fragments
+  TR_WORDS,
+  EN_WORDS,
+} from 'discord-filter';
+```
+
+All are `readonly string[]`. The full type surface — `FilterOptions`,
+`FilterResult`, `FilterMatch`, `FilterNoMatch`, `FilterAllResult`, `MatchType`,
+`NormalizationOptions` — is exported as well.
 
 ## How detection works
 

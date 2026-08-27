@@ -36,12 +36,39 @@ describe('case variants', () => {
 });
 
 describe('repeated characters', () => {
-  it.each(['saaalak', 'salllaaak', 'fuuuuck', 'shiiiit'])('flags %s', (word) => {
-    expect(filter.check(word).match).toBe(true);
+  it.each([
+    'saaalak',
+    'salllaaak',
+    'saaalaak', // 3-run + 2-run mixed
+    'ssaaalaakk',
+    'fuuuuck',
+    'shiiiit',
+  ])('flags %s', (word) => {
+    const r = filter.check(word);
+    expect(r.match).toBe(true);
+    expect(r.type).toBe('profanity');
   });
 
-  it('keeps the original surface text in matchedText', () => {
-    expect(filter.check('saaalak').matchedText).toBe('saaalak');
+  it('keeps the original surface text in matchedText and reports the canonical word', () => {
+    const a = filter.check('saaalak');
+    expect(a.matchedText).toBe('saaalak');
+    expect(a.word).toBe('salak');
+    const b = filter.check('hey saaalaak you');
+    expect(b.matchedText).toBe('saaalaak');
+    expect(b.word).toBe('salak');
+  });
+
+  it('a rule with a legit double letter still resolves its canonical form', () => {
+    // "pussy" has a real "ss"; obfuscated as "puuussy" must still report "pussy"
+    const r = filter.check('what a puuussy move');
+    expect(r.match).toBe(true);
+    expect(r.word).toBe('pussy');
+  });
+
+  it('is disabled when repeatedCharacters is off', () => {
+    const f = new Filter({ normalization: { repeatedCharacters: false } });
+    expect(f.check('saaalak').match).toBe(false);
+    expect(f.check('salak').match).toBe(true);
   });
 });
 

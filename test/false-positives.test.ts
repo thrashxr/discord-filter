@@ -38,6 +38,13 @@ describe('false-positive regression', () => {
     'meme oldu bu iş',
     'komik adam',
     'müzik dinliyorum',
+    // words with double letters (exercise the aggressive repeat-collapse pass)
+    'committee meeting notes',
+    'a fair assessment',
+    'possess the ball',
+    'the bookkeeper balloon llama',
+    'coffee and toffee',
+    'aggressive grass immediately',
     // sentences
     'I am going to the library',
     'e.g. the quick brown fox',

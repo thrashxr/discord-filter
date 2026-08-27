@@ -1,7 +1,6 @@
 import { foldHomoglyph } from './homoglyphs';
 import { foldLeet } from './leetspeak';
 import { compactSeparators } from './separators';
-import { collapseRepeated } from './repeated';
 
 /** Fully-resolved normalization toggles (no `undefined`). */
 export interface ResolvedNormalization {
@@ -100,8 +99,38 @@ export function normalizeForProfanity(
   // Step 2 — separator evasion (`s.a.l.a.k`).
   if (opts.separators) state = compactSeparators(state.chars, state.map);
 
-  // Step 3 — repeated characters (`saaalak`).
-  if (opts.repeatedCharacters) state = collapseRepeated(state.chars, state.map);
+  // Repeated characters (`saaalak`) are handled by the matcher via `collapseRuns`
+  // on derived variants, so the base text keeps every character.
 
   return { text: state.chars.join(''), map: state.map };
+}
+
+/**
+ * Collapse every run of `minRun` or more identical characters down to a single
+ * character, carrying the index map. Runs shorter than `minRun` are left intact
+ * (so `minRun: 3` preserves legit doubles like `book`).
+ */
+export function collapseRuns(
+  chars: string[],
+  map: number[],
+  minRun: number,
+): { chars: string[]; map: number[] } {
+  const outChars: string[] = [];
+  const outMap: number[] = [];
+
+  let runStart = 0;
+  while (runStart < chars.length) {
+    let runEnd = runStart + 1;
+    while (runEnd < chars.length && chars[runEnd] === chars[runStart]) runEnd++;
+
+    const runLength = runEnd - runStart;
+    const keep = runLength >= minRun ? 1 : runLength;
+    for (let k = 0; k < keep; k++) {
+      outChars.push(chars[runStart]!);
+      outMap.push(map[runStart + k]!);
+    }
+    runStart = runEnd;
+  }
+
+  return { chars: outChars, map: outMap };
 }
