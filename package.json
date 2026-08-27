@@ -1,24 +1,70 @@
 {
    "name": "discord-filter",
-   "version": "1.1.1",
-   "description": "Easily use profanity and advertisement filtering system for Discord.js.",
-   "main": "index.js",
-   "types": "index.d.ts",
-   "scripts": {
-      "test": "node index.js"
+   "version": "2.0.0",
+   "description": "Lightweight, dependency-free profanity / link / Discord-invite text filter with bypass detection. Framework-agnostic.",
+   "type": "module",
+   "main": "./dist/index.cjs",
+   "module": "./dist/index.js",
+   "types": "./dist/index.d.ts",
+   "exports": {
+      ".": {
+         "types": "./dist/index.d.ts",
+         "import": "./dist/index.js",
+         "require": "./dist/index.cjs"
+      },
+      "./package.json": "./package.json"
    },
-   "dependencies": {
-      "discord.js": "^14.0.0"
+   "sideEffects": false,
+   "files": [
+      "dist",
+      "README.md",
+      "changelog.md",
+      "LICENSE"
+   ],
+   "scripts": {
+      "build": "tsup",
+      "typecheck": "tsc --noEmit",
+      "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\" \"bench/**/*.ts\"",
+      "test": "vitest run",
+      "test:watch": "vitest",
+      "bench": "vitest bench --run",
+      "prepublishOnly": "npm run typecheck && npm run lint && npm test && npm run build"
    },
    "keywords": [
-      "discordjs",
       "filter",
       "profanity",
-      "moderation"
+      "moderation",
+      "badwords",
+      "swear",
+      "discord",
+      "discordjs",
+      "invite",
+      "url-detection",
+      "bypass",
+      "leetspeak",
+      "turkish",
+      "chat"
    ],
    "author": "Thrasher",
    "license": "ISC",
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/thrashxr/discord-filter.git"
+   },
+   "homepage": "https://github.com/thrashxr/discord-filter#readme",
+   "bugs": {
+      "url": "https://github.com/thrashxr/discord-filter/issues"
+   },
+   "engines": {
+      "node": ">=18"
+   },
    "devDependencies": {
-      "nodemon": "^2.0.22"
+      "@types/node": "^22.10.2",
+      "@typescript-eslint/eslint-plugin": "^8.18.0",
+      "@typescript-eslint/parser": "^8.18.0",
+      "eslint": "^8.57.1",
+      "tsup": "^8.3.5",
+      "typescript": "^5.7.2",
+      "vitest": "^2.1.8"
    }
 }
