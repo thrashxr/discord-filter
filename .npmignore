@@ -10,3 +10,4 @@ tsup.config.ts
 .gitignore
 *.log
 vitest.config.ts
+DEVLOG.md
