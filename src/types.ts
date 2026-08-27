@@ -1,7 +1,7 @@
 /**
  * Category of a detected match.
  *
- * - `profanity` — a bl!ocklisted word (including bypass variants).
+ * - `profanity` — a blocklisted word (including bypass variants).
  * - `link`      — a generic URL / domain.
  * - `invite`    — a Discord invite link.
  */

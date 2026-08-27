@@ -1,6 +1,7 @@
 import type { FilterMatch } from '../types';
 import {
   normalizeForProfanity,
+  collapseRuns,
   type ResolvedNormalization,
 } from '../normalization/normalize';
 
@@ -63,7 +64,11 @@ export function compileProfanity(input: CompileProfanityInput): CompiledProfanit
   for (const w of allowlist) {
     if (typeof w !== 'string') continue;
     const n = normalizeForProfanity(w, normalization).text.trim();
-    if (n) normalizedAllowlist.add(n);
+    if (n) {
+      normalizedAllowlist.add(n);
+      // also index the repeat-collapsed shape so `diiickens` is still cleared
+      normalizedAllowlist.add(n.replace(/(.)\1+/g, '$1'));
+    }
   }
 
   return {
@@ -133,16 +138,33 @@ export function matchProfanity(
   input: string,
 ): FilterMatch[] {
   if (!input) return [];
-  const { text: normText, map } = normalizeForProfanity(
-    input,
-    compiled.normalization,
-  );
-  if (!normText) return [];
+  const base = normalizeForProfanity(input, compiled.normalization);
+  if (!base.text) return [];
 
   const out: FilterMatch[] = [];
   const seen = new Set<string>();
-  runMatcher(compiled.shortRe, compiled, normText, map, input, false, out, seen);
-  runMatcher(compiled.normalRe, compiled, normText, map, input, true, out, seen);
+
+  const pass = (text: string, map: number[]): void => {
+    runMatcher(compiled.shortRe, compiled, text, map, input, false, out, seen);
+    runMatcher(compiled.normalRe, compiled, text, map, input, true, out, seen);
+  };
+
+  // Literal pass — exact rules plus separator / leet / homoglyph variants.
+  pass(base.text, base.map);
+
+  if (compiled.normalization.repeatedCharacters) {
+    // Conservative collapse (runs of 3+): keeps legit doubles like `pussy`.
+    const c3 = collapseRuns([...base.text], base.map, 3);
+    const c3text = c3.chars.join('');
+    if (c3text !== base.text) pass(c3text, c3.map);
+
+    // Aggressive collapse (runs of 2+): catches mixed evasions like `saaalaak`.
+    // Safe because boundary matching + the allowlist still apply.
+    const c2 = collapseRuns([...base.text], base.map, 2);
+    const c2text = c2.chars.join('');
+    if (c2text !== c3text) pass(c2text, c2.map);
+  }
+
   out.sort((a, b) => a.index - b.index);
   return out;
 }

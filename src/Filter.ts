@@ -18,7 +18,7 @@ import {
 import { compileUrl, matchUrls, type CompiledUrl } from './matchers/url';
 import {
   DEFAULT_WORDS,
-  DEFAULT_ALLOWLIST,
+  DEFAULT_ALLOWLIST_WORDS,
   DEFAULT_INVITE_HOSTS,
 } from './defaults';
 
@@ -86,7 +86,7 @@ export class Filter {
       ...(options.invites ?? []),
     ].map((w) => w.trim()).filter(Boolean);
     this.#allowlist = [
-      ...(useDefaults ? DEFAULT_ALLOWLIST : []),
+      ...(useDefaults ? DEFAULT_ALLOWLIST_WORDS : []),
       ...(options.allowlist ?? []),
     ].map((w) => w.trim()).filter(Boolean);
 

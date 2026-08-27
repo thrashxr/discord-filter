@@ -26,6 +26,8 @@ one output value changed. See the "Migrating from v1" section of the README.
   `addAllow`.
 - Configurable `allowlist`, `shortWordLength`, and per-pass `normalization`
   toggles.
+- Exported constants: `DEFAULT_WORDS`, `DEFAULT_ALLOWLIST_WORDS`,
+  `DEFAULT_INVITE_HOSTS`, `TR_WORDS`, `EN_WORDS`.
 - **127 automated tests** (Vitest) — heavy on false-positive and bypass
   regressions — plus a benchmark suite.
 

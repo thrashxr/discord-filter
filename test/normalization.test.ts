@@ -5,7 +5,6 @@ import {
   NO_NORMALIZATION,
 } from '../src/normalization/normalize';
 import { compactSeparators } from '../src/normalization/separators';
-import { collapseRepeated } from '../src/normalization/repeated';
 
 const idxMap = (s: string): number[] => [...s].map((_, i) => i);
 
@@ -29,8 +28,8 @@ describe('normalizeForProfanity', () => {
     expect(normalizeForProfanity('I am here', ALL_NORMALIZATION).text).toBe('i am here');
   });
 
-  it('collapses runs of 3+ but keeps doubles', () => {
-    expect(normalizeForProfanity('saaalak', ALL_NORMALIZATION).text).toBe('salak');
+  it('does NOT collapse repeated characters in the text (handled in the matcher)', () => {
+    expect(normalizeForProfanity('saaalak', ALL_NORMALIZATION).text).toBe('saaalak');
     expect(normalizeForProfanity('book', ALL_NORMALIZATION).text).toBe('book');
   });
 
@@ -53,11 +52,9 @@ describe('compactSeparators', () => {
     const three = compactSeparators([...'a.b.c'], idxMap('a.b.c'));
     expect(three.chars.join('')).toBe('abc');
   });
-});
 
-describe('collapseRepeated', () => {
-  it('collapses 3+, keeps 2', () => {
-    const r = collapseRepeated([...'baaad', 'l', 'l'], [0, 1, 2, 3, 4, 5, 6]);
-    expect(r.chars.join('')).toBe('badll');
+  it('does not compact a chain with mixed separator styles', () => {
+    const mixed = compactSeparators([...'a b.c'], idxMap('a b.c'));
+    expect(mixed.chars.join('')).toBe('a b.c');
   });
 });
