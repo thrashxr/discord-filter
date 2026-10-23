@@ -1,5 +1,7 @@
 # discord-filter
 
+> **New project: [Modsent](https://github.com/thrashxr/modsent)** — a cross-platform successor with ready-to-use Discord.js, grammY and Telegraf integrations. The prerelease is available as [`@thrasherflu/modsent`](https://www.npmjs.com/package/@thrasherflu/modsent) under npm's `next` tag. Read the [migration guide](https://github.com/thrashxr/modsent/blob/main/docs/migrating-from-discord-filter.md). Existing `discord-filter` installations continue working; migration is optional and this package is not deprecated.
+
 Lightweight, **dependency-free**, framework-agnostic text filter for profanity,
 links, and Discord invites — with real bypass detection and a low false-positive
 rate.
