@@ -32,6 +32,12 @@ const INVITE_RE = new RegExp(
   'gi',
 );
 
+/**
+ * Recognize obfuscated Discord invite hosts without broadening generic URL
+ * matching. Canonical bare `discord.gg` remains a plain link.
+ */
+const OBFUSCATED_INVITE_RE =
+  /(?<![a-z0-9_-])discord(?:[ \t]*,[ \t]*|[ \t]+\.[ \t]*|[ \t]*\.[ \t]+|[ \t]*\([ \t]*\.[ \t]*\)[ \t]*|[ \t]+)gg(?:[ \t]*\/[ \t]*[a-z0-9_-]{2,})?(?![a-z0-9_-])/gi;
 function lastLabel(host: string): string {
   const parts = host.toLowerCase().split('.');
   return parts[parts.length - 1] ?? '';
@@ -95,7 +101,23 @@ export function matchUrls(compiled: CompiledUrl, input: string): FilterMatch[] {
     if (INVITE_RE.lastIndex === m.index) INVITE_RE.lastIndex++;
   }
 
-  // 2 — Generic URLs, classified as invite (custom fragment) or link.
+  // 2 — Discord invite hosts disguised with spaces, commas, or `(.)`.
+  OBFUSCATED_INVITE_RE.lastIndex = 0;
+  while ((m = OBFUSCATED_INVITE_RE.exec(input)) !== null) {
+    const span = { start: m.index, end: m.index + m[0].length };
+    if (overlaps(span, inviteSpans)) continue;
+    inviteSpans.push(span);
+    out.push({
+      match: true,
+      type: 'invite',
+      word: m[0],
+      matchedText: m[0],
+      index: span.start,
+      endIndex: span.end,
+    });
+  }
+
+  // 3 — Generic URLs, classified as invite (custom fragment) or link.
   URL_RE.lastIndex = 0;
   while ((m = URL_RE.exec(input)) !== null) {
     const [full, scheme, www, host] = m;
@@ -132,7 +154,7 @@ export function matchUrls(compiled: CompiledUrl, input: string): FilterMatch[] {
     if (URL_RE.lastIndex === m.index) URL_RE.lastIndex++;
   }
 
-  // 3 — Explicit custom link fragments the generic matcher may not surface.
+  // 4 — Explicit custom link fragments the generic matcher may not surface.
   if (compiled.linkFragments.length > 0) {
     const lower = input.toLowerCase();
     const claimed: Span[] = out.map((r) => ({ start: r.index, end: r.endIndex }));
