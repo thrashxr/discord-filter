@@ -63,6 +63,19 @@ describe('Moderation adapters', () => {
     }, async () => {});
     expect(deleted).toBe(1);
   });
+  it('allows category-specific moderation without deleting unrelated links', async () => {
+    let deleted = 0;
+    let nexts = 0;
+    const middleware = createGrammyMiddleware({
+      filter: new Filter(), categories: ['invite'],
+    });
+    const ctx = (text: string) => ({
+      message: { text }, deleteMessage: async () => { deleted++; },
+    });
+    await middleware(ctx('example.com'), async () => { nexts++; });
+    await middleware(ctx('discord.gg/invite123'), async () => { nexts++; });
+    expect({ deleted, nexts }).toEqual({ deleted: 1, nexts: 1 });
+  });
   it('supports non-destructive Telegraf monitoring', async () => {
     let hits = 0;
     const middleware = createTelegrafMiddleware({

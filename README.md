@@ -86,9 +86,9 @@ bot.launch();
 
 Core constructor options: `words`, `links`, `invites`, `allowlist`, `useDefaults`, `languages` (`tr`, `en`), `shortWordLength`, and `normalization`. Mutation helpers include `addWord`, `removeWord`, `addLink`, `addInvite`, and `addAllow`. Inspect messages with `check` or `checkAll`; mask detected profanity with `censor`.
 
-Adapter options: `filter`, `action: 'delete' | 'none'`, `skip`, `onMatch`, `onError`, and `stopOnMatch`. Discord also supports `includeDMs`. These intentionally do not implement bans, strikes, role checks, or persistent moderation state. Handle those in your application.
+Adapter options: `filter`, `categories: ['profanity', 'invite', 'link']`, `action: 'delete' | 'none'`, `skip`, `onMatch`, `onError`, and `stopOnMatch`. Discord also supports `includeDMs`. These intentionally do not implement bans, strikes, role checks, or persistent moderation state. Handle those in your application.
 
-`onError` receives callback or deletion failures; if not provided, errors propagate. For performance, instantiate one Filter per shared configuration, rather than constructing it on every message.
+Use `categories: ['profanity', 'invite']` to allow ordinary links while blocking invites and profanity. `skip` lets you exempt trusted users and chats. `onError` receives callback or deletion failures; if not provided, errors propagate. For performance, instantiate one Filter per shared configuration, rather than constructing it on every message.
 
 ## Migration from discord-filter
 
