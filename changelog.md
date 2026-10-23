@@ -13,7 +13,7 @@
 - CI integration typing against installed framework packages and an isolated npm package smoke test.
 
 ### Changed
-- Proposed package name is `modsent`, while the previously published `discord-filter` package remains unchanged.
+- Proposed package name is `@thrasherflu/modsent`, while the previously published `discord-filter` package remains unchanged.
 - Accessors `words`, `links`, `invites` and `ads` return snapshots. Use mutation APIs to change filters.
 
 ### Notes

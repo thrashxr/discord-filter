@@ -5,10 +5,10 @@
 import { Client, GatewayIntentBits } from 'discord.js';
 import { Bot } from 'grammy';
 import { Telegraf } from 'telegraf';
-import { Filter } from 'modsent';
-import { createDiscordModerator } from 'modsent/discordjs';
-import { createGrammyMiddleware } from 'modsent/grammy';
-import { createTelegrafMiddleware } from 'modsent/telegraf';
+import { Filter } from '@thrasherflu/modsent';
+import { createDiscordModerator } from '@thrasherflu/modsent/discordjs';
+import { createGrammyMiddleware } from '@thrasherflu/modsent/grammy';
+import { createTelegrafMiddleware } from '@thrasherflu/modsent/telegraf';
 
 const filter = new Filter({ languages: ['en'], words: ['exampleblockword'] });
 const client = new Client({ intents: [

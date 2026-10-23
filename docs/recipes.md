@@ -5,8 +5,8 @@ Every example imports the same pure string filter. Keep a single `Filter` instan
 ## Allow links but block Discord invites and profanity
 
 ```ts
-import { Filter } from 'modsent';
-import { createDiscordModerator } from 'modsent/discordjs';
+import { Filter } from '@thrasherflu/modsent';
+import { createDiscordModerator } from '@thrasherflu/modsent/discordjs';
 
 const filter = new Filter();
 const handler = createDiscordModerator({
@@ -22,8 +22,8 @@ The `categories` setting is supported by every adapter. Its default is all match
 ## Observe matches without deleting anything
 
 ```ts
-import { Filter } from 'modsent';
-import { createGrammyMiddleware } from 'modsent/grammy';
+import { Filter } from '@thrasherflu/modsent';
+import { createGrammyMiddleware } from '@thrasherflu/modsent/grammy';
 
 bot.use(createGrammyMiddleware({
   filter: new Filter(),
@@ -39,11 +39,11 @@ A moderation callback does not persist data. Store violations, user strikes, ban
 
 ## Express HTTP API
 
-Install `npm i modsent express`, create `server.mjs`:
+Install `npm i @thrasherflu/modsent express`, create `server.mjs`:
 
 ```js
 import express from 'express';
-import { Filter } from 'modsent';
+import { Filter } from '@thrasherflu/modsent';
 
 const app = express();
 const filter = new Filter({ languages: ['en'] });
@@ -65,11 +65,11 @@ Run with `node server.mjs`. This endpoint only returns a detection result; it do
 
 ## Socket.IO chat
 
-Install `npm i modsent socket.io`, create `server.mjs`:
+Install `npm i @thrasherflu/modsent socket.io`, create `server.mjs`:
 
 ```js
 import { Server } from 'socket.io';
-import { Filter } from 'modsent';
+import { Filter } from '@thrasherflu/modsent';
 
 const io = new Server(3001);
 const filter = new Filter();
@@ -96,7 +96,7 @@ Run with `node server.mjs`. Authentication, authorization, flood control and mes
 ## Separate policies by chat or community
 
 ```ts
-import { Filter } from 'modsent';
+import { Filter } from '@thrasherflu/modsent';
 
 const filters = new Map<string, Filter>();
 

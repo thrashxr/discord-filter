@@ -1,5 +1,5 @@
 {
-  "name": "modsent",
+  "name": "@thrasherflu/modsent",
   "version": "3.0.0-rc.1",
   "description": "Framework-agnostic text moderation with ready-to-use Discord.js, grammY and Telegraf middleware.",
   "type": "module",
@@ -100,5 +100,8 @@
     "tsup": "^8.3.5",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

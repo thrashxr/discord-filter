@@ -4,18 +4,18 @@
 
 A dependency-free, TypeScript-first content filtering engine for Node.js with ready-to-use Discord.js, grammY, and Telegraf adapters. Built from `discord-filter` v2.
 
-> Release candidate: `3.0.0-rc.1`. This repository branch prepares a new package; it has not yet been published to npm.
+> Release candidate: `3.0.0-rc.1`. This repository branch prepares the scoped package `@thrasherflu/modsent`; it has not yet been published to npm.
 
 ## Installation after publishing
 
 ```sh
-npm install modsent
+npm install @thrasherflu/modsent
 ```
 
 ## Standalone Node.js
 
 ```ts
-import { Filter } from 'modsent';
+import { Filter } from '@thrasherflu/modsent';
 
 const filter = new Filter({ languages: ['en'], words: ['myblockedword'] });
 console.log(filter.check('myblockedword'));
@@ -31,8 +31,8 @@ Requires the Gateway Intent `MessageContent` and suitable message deletion permi
 
 ```ts
 import { Client, GatewayIntentBits } from 'discord.js';
-import { Filter } from 'modsent';
-import { createDiscordModerator } from 'modsent/discordjs';
+import { Filter } from '@thrasherflu/modsent';
+import { createDiscordModerator } from '@thrasherflu/modsent/discordjs';
 
 const client = new Client({ intents: [
   GatewayIntentBits.Guilds,
@@ -54,8 +54,8 @@ Text messages and media captions are checked. The bot needs deletion privileges 
 
 ```ts
 import { Bot } from 'grammy';
-import { Filter } from 'modsent';
-import { createGrammyMiddleware } from 'modsent/grammy';
+import { Filter } from '@thrasherflu/modsent';
+import { createGrammyMiddleware } from '@thrasherflu/modsent/grammy';
 
 const bot = new Bot(process.env.BOT_TOKEN!);
 bot.use(createGrammyMiddleware({
@@ -71,8 +71,8 @@ Text messages and media captions are checked. The bot must have sufficient permi
 
 ```ts
 import { Telegraf } from 'telegraf';
-import { Filter } from 'modsent';
-import { createTelegrafMiddleware } from 'modsent/telegraf';
+import { Filter } from '@thrasherflu/modsent';
+import { createTelegrafMiddleware } from '@thrasherflu/modsent/telegraf';
 
 const bot = new Telegraf(process.env.BOT_TOKEN!);
 bot.use(createTelegrafMiddleware({
@@ -96,12 +96,12 @@ Use `categories: ['profanity', 'invite']` to allow ordinary links while blocking
 
 ## Migration from discord-filter
 
-1. Replace `discord-filter` imports with `modsent`.
+1. Replace `discord-filter` imports with `@thrasherflu/modsent`.
 2. Existing `Filter.check`, `Filter.checkAll` and mutation APIs remain.
 3. Existing `ads` and `cleanCheck` aliases are retained but deprecated.
 4. `Filter.words`, `links`, `invites` and `ads` now return snapshots. Use mutation methods rather than editing them directly.
 5. `type: 'ad'` was replaced with `link` or `invite` in v2.
-6. Upgrade to `modsent/discordjs`, `modsent/grammy`, or `modsent/telegraf` for adapter-based moderation.
+6. Upgrade to `@thrasherflu/modsent/discordjs`, `@thrasherflu/modsent/grammy`, or `@thrasherflu/modsent/telegraf` for adapter-based moderation.
 
 No changes have been published to the existing `discord-filter` npm package.
 
