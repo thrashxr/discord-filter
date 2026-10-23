@@ -82,6 +82,10 @@ bot.use(createTelegrafMiddleware({
 bot.launch();
 ```
 
+## More copy-paste recipes
+
+See [Express, Socket.IO, detection-only mode, category policies and per-chat configuration](docs/recipes.md).
+
 ## Options and actions
 
 Core constructor options: `words`, `links`, `invites`, `allowlist`, `useDefaults`, `languages` (`tr`, `en`), `shortWordLength`, and `normalization`. Mutation helpers include `addWord`, `removeWord`, `addLink`, `addInvite`, and `addAllow`. Inspect messages with `check` or `checkAll`; mask detected profanity with `censor`.
