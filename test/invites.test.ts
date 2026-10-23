@@ -39,7 +39,7 @@ describe('discord invite detection', () => {
       type: 'invite',
       matchedText: 'discord (.) gg/abc12',
       index: 5,
-      endIndex: 24,
+      endIndex: 25,
     });
   });
 
