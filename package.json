@@ -53,6 +53,7 @@
   "files": [
     "dist",
     "README.md",
+    "docs",
     "changelog.md",
     "LICENSE"
   ],

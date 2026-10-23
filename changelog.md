@@ -1,5 +1,27 @@
 # Changelog
 
+## 3.0.0-rc.1 — Modsent migration candidate
+
+### Added
+- Framework-independent moderation adapters for Discord.js, grammY and Telegraf.
+- Standalone package subpath exports with ESM and CommonJS types.
+- Per-adapter category selection, actions, skip callbacks and error handlers.
+- Telegram message and caption moderation support.
+- Selectable built-in dictionaries with `languages: ['tr', 'en']`.
+- `Filter.censor(text)` for masking profanity using original match spans.
+- Copy-paste examples for Node.js, Discord.js, grammY, Telegraf, Express and Socket.IO.
+- CI integration typing against installed framework packages and an isolated npm package smoke test.
+
+### Changed
+- Proposed package name is `modsent`, while the previously published `discord-filter` package remains unchanged.
+- Accessors `words`, `links`, `invites` and `ads` return snapshots. Use mutation APIs to change filters.
+
+### Notes
+- Release candidate only. No publication, deprecation or migration of the existing npm package is implied.
+- Moderation adapters are intentionally small and do not implement persistent strikes, permissions, bans or audit logging.
+
+---
+
 ## 2.0.0
 
 A full rewrite. The public API (`new Filter()`, `filter.check()`) is preserved;
