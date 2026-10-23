@@ -45,6 +45,24 @@ describe('Moderation adapters', () => {
     await middleware(ctx('forbidden'), async () => { nexts++; });
     expect({ deletes, nexts }).toEqual({ deletes: 1, nexts: 1 });
   });
+  it('checks a grammY media caption', async () => {
+    let deleted = 0;
+    const middleware = createGrammyMiddleware({ filter });
+    await middleware({
+      message: { caption: 'forbidden' },
+      deleteMessage: async () => { deleted++; },
+    }, async () => {});
+    expect(deleted).toBe(1);
+  });
+  it('checks a Telegraf media caption', async () => {
+    let deleted = 0;
+    const middleware = createTelegrafMiddleware({ filter });
+    await middleware({
+      message: { caption: 'forbidden' },
+      deleteMessage: async () => { deleted++; },
+    }, async () => {});
+    expect(deleted).toBe(1);
+  });
   it('supports non-destructive Telegraf monitoring', async () => {
     let hits = 0;
     const middleware = createTelegrafMiddleware({

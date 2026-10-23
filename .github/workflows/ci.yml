@@ -21,3 +21,16 @@ jobs:
       - run: npm test
       - run: npm run build
       - run: node -e "if (!require('./dist/index.cjs').Filter) process.exit(1)"
+      - name: Test packed package in a clean app
+        run: |
+          npm pack --ignore-scripts --silent
+          mkdir -p /tmp/modsent-smoke
+          cd /tmp/modsent-smoke
+          npm init -y > /dev/null
+          npm install --ignore-scripts --no-audit --no-fund "$GITHUB_WORKSPACE/modsent-3.0.0-rc.1.tgz"
+          node -e "const m=require('modsent'); if(typeof m.Filter!=='function') process.exit(1); for(const name of ['discordjs','grammy','telegraf']) if(!require('modsent/'+name)) process.exit(1)"
+          node --input-type=module -e "import('modsent').then(m=>{if(typeof m.Filter!=='function')process.exit(1)})"
+      - name: Test compatibility against actual frameworks
+        run: |
+          npm install --no-save --package-lock=false discord.js@^14 grammy@^1 telegraf@^4
+          npx tsc --project tsconfig.integrations.json

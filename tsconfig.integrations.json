@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": [
+    "test/integrations.types.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

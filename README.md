@@ -50,7 +50,7 @@ client.login(process.env.DISCORD_TOKEN);
 
 ## grammY
 
-The bot needs deletion privileges in the target chat. Use `action: 'none'` for detection-only mode.
+Text messages and media captions are checked. The bot needs deletion privileges in the target chat. Use `action: 'none'` for detection-only mode.
 
 ```ts
 import { Bot } from 'grammy';
@@ -66,6 +66,8 @@ bot.start();
 ```
 
 ## Telegraf
+
+Text messages and media captions are checked. The bot must have sufficient permissions in its target chat.
 
 ```ts
 import { Telegraf } from 'telegraf';
@@ -100,6 +102,8 @@ Adapter options: `filter`, `action: 'delete' | 'none'`, `skip`, `onMatch`, `onEr
 No changes have been published to the existing `discord-filter` npm package.
 
 ## Development
+
+CI additionally compiles integration examples against real Discord.js, grammY and Telegraf declarations and installs the npm tarball in a clean directory to validate package exports.
 
 ```sh
 npm ci
