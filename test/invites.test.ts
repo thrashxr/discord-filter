@@ -17,6 +17,43 @@ describe('discord invite detection', () => {
     expect(r.type).toBe('invite');
   });
 
+  it.each([
+    'discord,gg',
+    'discord gg',
+    'discord(.)gg',
+    'discord . gg',
+    'discord .gg',
+    'discord. gg',
+    'DISCORD ( . ) GG/abc12',
+    'join discord,gg/abcdef now',
+  ])('detects obfuscated invite host %j', (text) => {
+    const match = filter.check(text);
+    expect(match).toMatchObject({ match: true, type: 'invite' });
+    expect(filter.checkAll(text).matches.some((m) => m.type === 'invite')).toBe(true);
+  });
+
+  it('preserves source offsets for an obfuscated invite', () => {
+    const text = 'join discord (.) gg/abc12 now';
+    const match = filter.check(text);
+    expect(match).toMatchObject({
+      type: 'invite',
+      matchedText: 'discord (.) gg/abc12',
+      index: 5,
+      endIndex: 24,
+    });
+  });
+
+  it.each([
+    'notdiscord gg',
+    'discord ggamer',
+    'mydiscord(.)gg',
+    'discord (.) ggg',
+    'just discord or gg',
+    'a discord game',
+  ])('does not flag ordinary text %j', (text) => {
+    expect(filter.check(text).match).toBe(false);
+  });
+
   it('reports the invite substring', () => {
     const r = filter.check('join discord.gg/cool now');
     expect(r).toMatchObject({ type: 'invite', matchedText: 'discord.gg/cool', index: 5 });
