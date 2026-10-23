@@ -1,75 +1,103 @@
 {
-   "name": "discord-filter",
-   "version": "2.0.0",
-   "description": "Lightweight, dependency-free profanity / link / Discord-invite text filter with bypass detection. Framework-agnostic.",
-   "type": "module",
-   "main": "./dist/index.cjs",
-   "module": "./dist/index.js",
-   "types": "./dist/index.d.ts",
-   "exports": {
-      ".": {
-         "import": {
-            "types": "./dist/index.d.ts",
-            "default": "./dist/index.js"
-         },
-         "require": {
-            "types": "./dist/index.d.cts",
-            "default": "./dist/index.cjs"
-         }
+  "name": "modsent",
+  "version": "3.0.0-rc.1",
+  "description": "Framework-agnostic text moderation with ready-to-use Discord.js, grammY and Telegraf middleware.",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
       },
-      "./package.json": "./package.json"
-   },
-   "sideEffects": false,
-   "files": [
-      "dist",
-      "README.md",
-      "changelog.md",
-      "LICENSE"
-   ],
-   "scripts": {
-      "build": "tsup",
-      "typecheck": "tsc --noEmit",
-      "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\" \"bench/**/*.ts\"",
-      "test": "vitest run",
-      "test:watch": "vitest",
-      "bench": "vitest bench --run",
-      "prepublishOnly": "npm run typecheck && npm run lint && npm test && npm run build"
-   },
-   "keywords": [
-      "filter",
-      "profanity",
-      "moderation",
-      "badwords",
-      "swear",
-      "discord",
-      "discordjs",
-      "invite",
-      "url-detection",
-      "bypass",
-      "leetspeak",
-      "turkish",
-      "chat"
-   ],
-   "author": "Thrasher",
-   "license": "ISC",
-   "repository": {
-      "type": "git",
-      "url": "git+https://github.com/thrashxr/discord-filter.git"
-   },
-   "homepage": "https://github.com/thrashxr/discord-filter#readme",
-   "bugs": {
-      "url": "https://github.com/thrashxr/discord-filter/issues"
-   },
-   "engines": {
-      "node": ">=18"
-   },
-   "devDependencies": {
-      "@types/node": "^22.10.2",
-      "@typescript-eslint/eslint-plugin": "^8.18.0",
-      "@typescript-eslint/parser": "^8.18.0",
-      "eslint": "^8.57.1",
-      "tsup": "^8.3.5",
-      "typescript": "^5.7.2",
-      "vitest": "^2.1.8"
-   }
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./discordjs": {
+      "import": {
+        "types": "./dist/discordjs.d.ts",
+        "default": "./dist/discordjs.js"
+      },
+      "require": {
+        "types": "./dist/discordjs.d.cts",
+        "default": "./dist/discordjs.cjs"
+      }
+    },
+    "./grammy": {
+      "import": {
+        "types": "./dist/grammy.d.ts",
+        "default": "./dist/grammy.js"
+      },
+      "require": {
+        "types": "./dist/grammy.d.cts",
+        "default": "./dist/grammy.cjs"
+      }
+    },
+    "./telegraf": {
+      "import": {
+        "types": "./dist/telegraf.d.ts",
+        "default": "./dist/telegraf.js"
+      },
+      "require": {
+        "types": "./dist/telegraf.d.cts",
+        "default": "./dist/telegraf.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md",
+    "changelog.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\" \"bench/**/*.ts\"",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "bench": "vitest bench --run",
+    "prepublishOnly": "npm run typecheck && npm run lint && npm test && npm run build"
+  },
+  "keywords": [
+    "modsent",
+    "moderation",
+    "filter",
+    "profanity",
+    "discord",
+    "telegram",
+    "grammy",
+    "telegraf",
+    "middleware",
+    "typescript",
+    "text-filter"
+  ],
+  "author": "Thrasher",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thrashxr/discord-filter.git"
+  },
+  "homepage": "https://github.com/thrashxr/discord-filter#readme",
+  "bugs": {
+    "url": "https://github.com/thrashxr/discord-filter/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0",
+    "eslint": "^8.57.1",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
 }

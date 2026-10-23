@@ -6,6 +6,7 @@
  * - `invite`    — a Discord invite link.
  */
 export type MatchType = 'profanity' | 'link' | 'invite';
+export type SupportedLanguage = 'tr' | 'en';
 
 /** Toggles for the individual normalization passes used by the profanity matcher. */
 export interface NormalizationOptions {
@@ -30,6 +31,8 @@ export interface FilterOptions {
   allowlist?: string[];
   /** Load the built-in TR/EN profanity list and the built-in invite hosts. Default: `true`. */
   useDefaults?: boolean;
+  /** Select default profanity dictionaries. Defaults to TR + EN. */
+  languages?: SupportedLanguage[];
   /**
    * Profanity rules with a length `<=` this value are matched with a strict word
    * boundary on both sides (so `sik` never matches `sikayet`). Default: `3`.

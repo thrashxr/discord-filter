@@ -6,6 +6,7 @@ export type {
   FilterNoMatch,
   FilterAllResult,
   MatchType,
+  SupportedLanguage,
   NormalizationOptions,
 } from './types';
 export {

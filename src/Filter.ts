@@ -17,9 +17,10 @@ import {
 } from './matchers/profanity';
 import { compileUrl, matchUrls, type CompiledUrl } from './matchers/url';
 import {
-  DEFAULT_WORDS,
   DEFAULT_ALLOWLIST_WORDS,
   DEFAULT_INVITE_HOSTS,
+  TR_WORDS,
+  EN_WORDS,
 } from './defaults';
 
 const NO_MATCH: FilterResult = {
@@ -76,8 +77,13 @@ export class Filter {
 
     const customLinks = [...(options.links ?? []), ...(options.ads ?? [])];
 
+    const languages = options.languages ?? ['tr', 'en'];
+    const defaultWords = useDefaults ? [
+      ...(languages.includes('tr') ? TR_WORDS : []),
+      ...(languages.includes('en') ? EN_WORDS : []),
+    ] : [];
     this.#words = [
-      ...(useDefaults ? DEFAULT_WORDS : []),
+      ...defaultWords,
       ...(options.words ?? []),
     ].map((w) => w.trim()).filter(Boolean);
     this.#links = customLinks.map((w) => w.trim()).filter(Boolean);
@@ -113,22 +119,22 @@ export class Filter {
 
   /** Live profanity rule list. Prefer the mutation methods over editing directly. */
   get words(): string[] {
-    return this.#words;
+    return [...this.#words];
   }
 
   /** Live custom link-fragment list. */
   get links(): string[] {
-    return this.#links;
+    return [...this.#links];
   }
 
   /** Live invite host-fragment list. */
   get invites(): string[] {
-    return this.#invites;
+    return [...this.#invites];
   }
 
   /** @deprecated v1 alias for {@link Filter.links}. */
   get ads(): string[] {
-    return this.#links;
+    return [...this.#links];
   }
 
   // ---------------------------------------------------------------------------
@@ -195,6 +201,21 @@ export class Filter {
 
   addAllow(word: string): void {
     if (uniquePush(this.#allowlist, word)) this.#profanity = this.#compileProfanity();
+  }
+
+  /** Censor profanity spans in the original input while preserving unrelated text. */
+  censor(content: string, replacement = '*'): string {
+    if (typeof content !== 'string' || !content || !replacement) return content;
+    const matches = this.checkAll(content).matches.filter((m) => m.type === 'profanity');
+    let output = '';
+    let cursor = 0;
+    for (const match of matches) {
+      if (match.index < cursor) continue;
+      output += content.slice(cursor, match.index);
+      output += replacement.repeat([...content.slice(match.index, match.endIndex)].length);
+      cursor = match.endIndex;
+    }
+    return output + content.slice(cursor);
   }
 
   // ---------------------------------------------------------------------------
